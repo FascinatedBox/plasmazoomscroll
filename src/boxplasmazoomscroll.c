@@ -14,19 +14,31 @@ static DBusConnection *conn;
 static DBusError err;
 
 // I don't like magic numbers.
-#define TABLE_SIZE 2
+#define TABLE_SIZE 4
 
 // Button 4 = scroll up
 // Button 5 = scroll down
-static int button_table[TABLE_SIZE] = { 4, 5 };
+static int button_table[TABLE_SIZE] = {
+    4,
+    4,
+    5,
+    5,
+};
 
-// Assuming (this is left or right) control.
-// Currently unnecessary, but leaving it like this makes it easy for someone
-// else to mod the mods.
-static int mod_table[TABLE_SIZE] = { Mod1Mask, Mod1Mask };
+// Mod1: Assumed to be (left or right) control.
+// Mod2: Num lock. Both sets here so this works regardless of num lock state.
+static int mod_table[TABLE_SIZE] = {
+    Mod1Mask,
+    Mod1Mask | Mod2Mask,
+    Mod1Mask,
+    Mod1Mask | Mod2Mask,
+};
+
 static const char *action_table[TABLE_SIZE] = {
     "view_zoom_in",
-    "view_zoom_out"
+    "view_zoom_in",
+    "view_zoom_out",
+    "view_zoom_out",
 };
 
 static void init_dbus(void)
