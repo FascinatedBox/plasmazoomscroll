@@ -1,14 +1,16 @@
 project(boxplasmazoomscroll)
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.5.0)
 
-include(FindPkgConfig)
+find_package(X11 REQUIRED)
+pkg_check_modules(
+    dbus
+        dbus-1
+    REQUIRED
+)
 
 if(WITH_DEBUG)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g3 -O0")
 endif()
-
-find_package(X11)
-pkg_check_modules(dbus REQUIRED dbus-1)
 
 add_executable(
     boxplasmazoomscroll
@@ -17,7 +19,7 @@ add_executable(
 
 target_include_directories(
     boxplasmazoomscroll
-    PUBLIC
+    PRIVATE
         ${dbus_INCLUDE_DIRS}
 )
 
